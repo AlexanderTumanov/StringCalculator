@@ -1,0 +1,45 @@
+body {
+  background-color: black;
+}
+
+#sub-background {
+  background-color: rgb(214, 102, 102);
+  border-radius: 10px;
+  padding: 400px;
+  margin: 10px;
+  width: 850px;
+  margin-left: 100px;
+  margin-top: 50px;
+}
+
+#wrapper {
+  width: 900px;
+  position: absolute;
+  left: 30%;
+  top: 45%;
+}
+
+#textbox {
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 700px;
+  border-color: black;
+  border-width: 1px;
+  display: inline-block;
+  position: relative;
+}
+
+#enterButton {
+  background-color: red;
+  border-radius: 5px;
+  border: 0;
+  color: white;
+  vertical-align: top;
+  display: inline-block;
+  width: 70px;
+  height: 60px;
+  cursor: pointer;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 15px;
+}

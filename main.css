@@ -28,6 +28,7 @@ body {
   border-width: 1px;
   display: inline-block;
   position: relative;
+  white-space:nowrap;
 }
 
 #enterButton {
@@ -42,4 +43,24 @@ body {
   cursor: pointer;
   font-family: "Ubuntu", sans-serif;
   font-size: 15px;
+}
+
+#enterButton:hover {
+  background-color: rgb(209, 41, 41);
+}
+
+#result {
+  background-color: rgb(251, 42, 42);
+  border-radius: 15px;
+  padding: 20px;
+  height: 20px;
+  width: 700px;
+  border-color: black;
+  border-width: 1px;
+  display: inline-block;
+  position: relative;
+  white-space:nowrap;
+  margin-top: 20px;
+  font-size: 20px;
+  visibility: hidden;
 }

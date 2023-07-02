@@ -39,7 +39,12 @@ function calculate() {
       if (c >= '0' && c <= '9') {
         curNum=c;
         state = NUMBER;
-      } 
+      }
+      else if (c === ".") {
+        curNum+=c;
+        state = NUMBER;
+        continue;
+      }
       else if (c == "+" || c == "-" || c == "*" || c == "/") {
         stuff.push(curNum);
         stuff.push(c);

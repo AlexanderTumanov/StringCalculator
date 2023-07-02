@@ -26,10 +26,23 @@ function calculate() {
         continue;
       }
       else if (c === "+" || c === "-" || c === "*" || c === "/") {
-        stuff.push(curNum);
+        if (state === NUMBER) {
+          stuff.push(curNum);
+        }
         stuff.push(c);
         state = UNDEFINED;
         curNum='';
+      }
+      else if (c === "(" || c === ")") {
+        if (state === NUMBER) {
+          stuff.push(curNum);
+          if (c !== ')') {
+            stuff.push('*');
+          }
+        }
+        stuff.push(c);
+        state = UNDEFINED;
+        curNum = '';
       }
       else{//garbage
         continue;
@@ -37,6 +50,9 @@ function calculate() {
     }
     else if(state === UNDEFINED){
       if (c >= '0' && c <= '9') {
+        if (stuff[i] === ')') {
+          stuff.push('*');
+        };
         curNum=c;
         state = NUMBER;
       }
@@ -46,10 +62,21 @@ function calculate() {
         continue;
       }
       else if (c == "+" || c == "-" || c == "*" || c == "/") {
-        stuff.push(curNum);
+        if (state === NUMBER) {
+          stuff.push(curNum);
+        }
         stuff.push(c);
         state = UNDEFINED;
         curNum='';
+      }
+      else if (c === "(" || c === ")") {
+        if (state === NUMBER) {
+          stuff.push(curNum);
+          stuff.push('*');
+        }
+        stuff.push(c);
+        state = UNDEFINED;
+        curNum = '';
       }
       else{//garbage
         continue;
@@ -59,33 +86,52 @@ function calculate() {
   if(curNum!==''){
     stuff.push(curNum);
   }
-  //evaluate all * and /
+
+  //evaluate all ( and )
   for (let i = 0; i < stuff.length; i++) {
-    if (stuff[i] === '*') {
-      stuff[i-1] = stuff[i-1] * stuff[i+1];
-      stuff.splice(i,2);
+    if (stuff[i] === '(') {
+      let j = i+1;
+      let temp = [];
+      while (stuff[j] !== ')') {
+        temp.push(stuff[j]);
+        j++;
+      }
+      stuff.splice(i,j-1,evaluate(temp));
+      j = 0;
+      temp = []; //reset for next parentheses
+    }
+  }
+  
+  function evaluate(eq) {
+  //evaluate all * and /
+  for (let i = 0; i < eq.length; i++) {
+    if (eq[i] === '*') {
+      eq[i-1] = eq[i-1] * eq[i+1];
+      eq.splice(i,2);
       i--;
     }
-    else if (stuff[i] === '/') {
-      stuff[i-1] = stuff[i-1] / stuff[i+1];
-        stuff.splice(i,2);
+    else if (eq[i] === '/') {
+      eq[i-1] = eq[i-1] / eq[i+1];
+      eq.splice(i,2);
         i--;
     }
   }
   //evaluate all + and -
-  for (let i = 0; i < stuff.length; i++) {
-    if (stuff[i] === '+') {
-      stuff[i-1] = parseFloat((stuff[i-1])) + parseFloat(stuff[i+1]);
-      stuff.splice(i,2);
+  for (let i = 0; i < eq.length; i++) {
+    if (eq[i] === '+') {
+      eq[i-1] = parseFloat((eq[i-1])) + parseFloat(eq[i+1]);
+      eq.splice(i,2);
       i--;
     }
-    else if (stuff[i] === '-') {
-      stuff[i-1] = stuff[i-1] - stuff[i+1];
-      stuff.splice(i,2);
+    else if (eq[i] === '-') {
+      eq[i-1] = eq[i-1] - eq[i+1];
+      eq.splice(i,2);
       i--;
     }
   }
-  document.getElementById("result").innerText = 'Result: ' +stuff[0];
+  return eq[0];
+  }
+  document.getElementById("result").innerText = 'Result: ' + evaluate(stuff);
   document.getElementById("result").style.visibility = "visible";
   console.log(stuff);
   console.log('test: '+stuff);

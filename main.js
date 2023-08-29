@@ -25,7 +25,7 @@ function calculate() {
         state = NUMBER;
         continue;
       }
-      else if (c === "+" || c === "-" || c === "*" || c === "/") {
+      else if (c === "+" || c === "-" || c === "*" || c === "/" || c === "^") {
         if (state === NUMBER) {
           stuff.push(curNum);
         }
@@ -61,7 +61,7 @@ function calculate() {
         state = NUMBER;
         continue;
       }
-      else if (c == "+" || c == "-" || c == "*" || c == "/") {
+      else if (c == "+" || c == "-" || c == "*" || c == "/" || c === "^") {
         if (state === NUMBER) {
           stuff.push(curNum);
         }
@@ -103,8 +103,13 @@ function calculate() {
   }
   
   function evaluate(eq) {
-  //evaluate all * and /
+  //evaluate all ^, *, and /
   for (let i = 0; i < eq.length; i++) {
+    if (eq[i] === "^") {
+        eq[i-1] = eq[i-1] ** eq[i+1];
+        eq.splice(1,2);
+        i--;
+    }
     if (eq[i] === '*') {
       eq[i-1] = eq[i-1] * eq[i+1];
       eq.splice(i,2);
